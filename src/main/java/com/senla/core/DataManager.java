@@ -14,9 +14,11 @@ import java.time.LocalDateTime;
 
 
 public class DataManager {
-    private static final String FILE_PATH = "accounts.txt";
+    private static final String FILE_PATH = System.getProperty("BuildFilePath") == null ? "accounts.txt"
+            : System.getProperty("BuildFilePath");
 
     public static void loadAccounts(AccountRepository repo) throws InvalidFileFormatException {
+
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             //првоер ить правильность загрузки
