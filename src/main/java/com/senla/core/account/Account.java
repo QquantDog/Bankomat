@@ -1,4 +1,5 @@
 package com.senla.core.account;
+
 import com.senla.core.atm.ATM;
 import com.senla.core.util.CardValidator;
 import com.senla.core.transaction.Transaction;
@@ -19,7 +20,7 @@ public class Account {
     private LocalDateTime lockTime;
     private List<Transaction> transactions;
 
-    public static final int LOCK_DURATION_SECONDS = 30;
+    public static final int LOCK_DURATION_SECONDS = 3600 * 24;
 
     public Account(String cardNumber, String pin, BigDecimal balance, int pinAttempts, LocalDateTime lockTime) {
         this.cardNumber = cardNumber;
@@ -31,12 +32,15 @@ public class Account {
     }
 
     public static void preValidate(String cardNumber, String pin, BigDecimal balance, int pinAttempts, LocalDateTime lockTime) throws CardValidationException {
-        if(!CardValidator.isValidCardNumber(cardNumber)) throw new CardValidationException("Invalid card format");
-        if(!CardValidator.isValidPin(pin)) throw new CardValidationException("Invalid pin format");
-        if(balance.compareTo(BigDecimal.valueOf(0)) < 0) throw new CardValidationException("Invalid amount of money");
-        if(pinAttempts < 0 || pinAttempts > ATM.MAX_PIN_ATTEMPTS) throw new CardValidationException("Invalid pin attempts");
-        if(pinAttempts == ATM.MAX_PIN_ATTEMPTS && lockTime == null) throw new CardValidationException("Invalid lock time");
-        if(pinAttempts != ATM.MAX_PIN_ATTEMPTS && lockTime != null) throw new CardValidationException("Invalid lock time");
+        if (!CardValidator.isValidCardNumber(cardNumber)) throw new CardValidationException("Invalid card format");
+        if (!CardValidator.isValidPin(pin)) throw new CardValidationException("Invalid pin format");
+        if (balance.compareTo(BigDecimal.valueOf(0)) < 0) throw new CardValidationException("Invalid amount of money");
+        if (pinAttempts < 0 || pinAttempts > ATM.MAX_PIN_ATTEMPTS)
+            throw new CardValidationException("Invalid pin attempts");
+        if (pinAttempts == ATM.MAX_PIN_ATTEMPTS && lockTime == null)
+            throw new CardValidationException("Invalid lock time");
+        if (pinAttempts != ATM.MAX_PIN_ATTEMPTS && lockTime != null)
+            throw new CardValidationException("Invalid lock time");
     }
 
     public String getCardNumber() {
@@ -60,7 +64,8 @@ public class Account {
     }
 
     public void setBalance(BigDecimal balance) throws IllegalArgumentException {
-        if(balance.compareTo(BigDecimal.valueOf(0)) < 0 ) throw new IllegalArgumentException("Balance couldn't be negative");
+        if (balance.compareTo(BigDecimal.valueOf(0)) < 0)
+            throw new IllegalArgumentException("Balance couldn't be negative");
         this.balance = balance;
     }
 
@@ -94,8 +99,8 @@ public class Account {
     }
 
     @Override
-    public String toString(){
-        return  "CN: " + cardNumber
+    public String toString() {
+        return "CN: " + cardNumber
                 + " pin: " + pin
                 + " balance: " + balance
                 + " attempts: " + pinAttempts

@@ -10,14 +10,13 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-
 public class ATM {
 
     private AccountRepository repo;
     private Account currentAccount;
     private ATMState atmState;
 
-    public static final int MAX_PIN_ATTEMPTS = 2;
+    public static final int MAX_PIN_ATTEMPTS = 3;
 
     public ATM(AccountRepository repo, ATMState atmState) {
         this.repo = repo;
@@ -29,11 +28,13 @@ public class ATM {
         if (!CardValidator.isValidPin(pin)) throw new ATMException("Invalid input pin format");
 
         var account = repo.getAccountByCardName(cardNumber);
-        if (account == null) throw new ATMException("Card number not found.");
+        if (account == null) throw new ATMException("Card number not found");
 
         if (account.getCardNumber().equals(cardNumber)) {
             if (account.isLocked() && Duration.between(account.getLockTime(), LocalDateTime.now()).toSeconds() < Account.LOCK_DURATION_SECONDS) {
-                throw new ATMException("Card is locked. Try again later.");
+                var duration = Duration.between(account.getLockTime(), LocalDateTime.now());
+                throw new ATMException("Card is locked. Remaining lock duration "
+                        + " seconds: " + (Account.LOCK_DURATION_SECONDS - duration.toSeconds()));
             } else if (account.isLocked()) {
                 account.unlockAccount();
             }
@@ -41,7 +42,6 @@ public class ATM {
                 currentAccount = account;
                 account.resetPinAttempts();
                 System.out.println("Authentication successful for card: " + cardNumber);
-                return;
             } else {
                 account.incrementPinAttempts();
                 if (account.getPinAttempts() >= MAX_PIN_ATTEMPTS) {
@@ -93,7 +93,7 @@ public class ATM {
 
     public void ensureAuthenticated() throws ATMException {
         if (currentAccount == null) {
-            throw new ATMException("User not authenticated.");
+            throw new ATMException("User not authenticated");
         }
     }
 
