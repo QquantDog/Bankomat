@@ -1,7 +1,7 @@
 package com.senla.ui;
 
 
-import com.senla.core.ATM;
+import com.senla.core.atm.ATM;
 import com.senla.core.exceptions.ATMException;
 
 import java.math.BigDecimal;
@@ -23,7 +23,9 @@ public class Menu {
         System.out.println("3. Withdraw");
         System.out.println("4. Deposit");
         System.out.println("5. Transaction History");
-        System.out.println("6. Exit");
+        System.out.println("6. Exit Saving");
+        System.out.println("9. Exit Discarding Changes");
+        System.out.println("d. For Printing Internal Account Info");
         System.out.print("Enter your choice: ");
     }
 
@@ -34,51 +36,57 @@ public class Menu {
         String pin = scanner.nextLine();
         try {
             atm.authenticate(cardNumber, pin);
-            System.out.println("Authentication successful.");
+            System.out.println("Authentication successful\n");
         } catch (ATMException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n");
         }
     }
 
     public void performCheckBalance() {
         try {
-            System.out.println("Current balance: " + atm.checkBalance().setScale(2, RoundingMode.DOWN));
+            atm.ensureAuthenticated();
+            System.out.println("Current balance: " + atm.checkBalance().setScale(2, RoundingMode.DOWN) + "\n");
         } catch (ATMException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n");
         }
     }
 
     public void performWithdraw(Scanner scanner) {
-        System.out.print("Enter amount to withdraw: ");
         try {
+            atm.ensureAuthenticated();
+            System.out.print("Enter amount to withdraw: ");
+
             BigDecimal amount = new BigDecimal(scanner.nextLine());
             atm.withdraw(amount.setScale(2, RoundingMode.DOWN));
-            System.out.println("Withdrawal successful.");
+            System.out.println("Withdrawal successful\n");
         } catch (ATMException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n");
         } catch (NumberFormatException e){
-            System.out.println("Incorrect amount format");
+            System.out.println("Incorrect amount format\n");
         }
     }
 
     public void performDeposit(Scanner scanner) {
-        System.out.print("Enter amount to deposit: ");
         try {
+            atm.ensureAuthenticated();
+            System.out.print("Enter amount to deposit: ");
+
             BigDecimal amount = new BigDecimal(scanner.nextLine());
             atm.deposit(amount.setScale(2, RoundingMode.DOWN));
-            System.out.println("Deposit successful.");
+            System.out.println("Deposit successful\n");
         } catch (ATMException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n");
         } catch (NumberFormatException e){
-            System.out.println("Incorrect amount format");
+            System.out.println("Incorrect amount format\n");
         }
     }
 
     public void performPrintTransactionHistory() {
         try {
+            atm.ensureAuthenticated();
             atm.printTransactionHistory();
         } catch (ATMException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n");
         }
     }
 }

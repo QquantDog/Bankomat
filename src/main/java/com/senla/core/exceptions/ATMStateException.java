@@ -1,6 +1,6 @@
 package com.senla.core.exceptions;
 
-import com.senla.core.ATMOperationType;
+import com.senla.core.atm.ATMOperationType;
 
 public class ATMStateException extends Exception {
 
@@ -14,7 +14,5 @@ public class ATMStateException extends Exception {
     public String getMessage(){
         return "ATM " + type.toString() + " error due to: " + super.getMessage();
     }
-//    public String toString(){
-//
-//    }
+
 }

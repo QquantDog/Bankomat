@@ -1,5 +1,9 @@
-package com.senla.core;
+package com.senla.core.atm;
 
+import com.senla.core.account.Account;
+import com.senla.core.account.AccountRepository;
+import com.senla.core.util.CardValidator;
+import com.senla.core.transaction.TransactionManager;
 import com.senla.core.exceptions.ATMException;
 
 import java.math.BigDecimal;
@@ -51,12 +55,10 @@ public class ATM {
     }
 
     public BigDecimal checkBalance() throws ATMException {
-        ensureAuthenticated();
         return currentAccount.getBalance();
     }
 
     public void withdraw(BigDecimal amount) throws ATMException {
-        ensureAuthenticated();
         if (amount.compareTo(BigDecimal.valueOf(0)) <= 0) throw new ATMException("Amount should be positive");
         if (amount.compareTo(currentAccount.getBalance()) > 0) throw new ATMException("Not enough money :(");
 //        положительеый amount и хватает денег на балансе
@@ -73,7 +75,6 @@ public class ATM {
 
 
     public void deposit(BigDecimal amount) throws ATMException {
-        ensureAuthenticated();
         if (amount.compareTo(BigDecimal.valueOf(0)) <= 0) throw new ATMException("Amount should be positive");
         try {
             atmState.depositAtmBalance(amount);
@@ -87,11 +88,10 @@ public class ATM {
     }
 
     public void printTransactionHistory() throws ATMException {
-        ensureAuthenticated();
         TransactionManager.printTransactionHistory(currentAccount);
     }
 
-    private void ensureAuthenticated() throws ATMException {
+    public void ensureAuthenticated() throws ATMException {
         if (currentAccount == null) {
             throw new ATMException("User not authenticated.");
         }

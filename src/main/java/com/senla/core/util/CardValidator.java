@@ -1,4 +1,4 @@
-package com.senla.core;
+package com.senla.core.util;
 
 
 public class CardValidator {

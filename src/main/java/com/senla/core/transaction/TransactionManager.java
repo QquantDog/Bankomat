@@ -1,4 +1,7 @@
-package com.senla.core;
+package com.senla.core.transaction;
+
+import com.senla.core.atm.ATMOperationType;
+import com.senla.core.account.Account;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,6 +20,7 @@ public class TransactionManager {
             for (Transaction transaction : transactions) {
                 System.out.println(transaction);
             }
+            System.out.println();
         }
     }
 }

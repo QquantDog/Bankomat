@@ -1,5 +1,8 @@
 package com.senla.core;
 
+import com.senla.core.atm.ATM;
+import com.senla.core.account.Account;
+import com.senla.core.account.AccountRepository;
 import com.senla.core.exceptions.CardValidationException;
 import com.senla.core.exceptions.InvalidFileFormatException;
 
@@ -21,8 +24,6 @@ public class DataManager {
 
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
-            //првоер ить правильность загрузки
-            // выкинуть эксепшн если строка не соответсвует формату
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(" ");
                 if (parts.length == 5) {
@@ -68,6 +69,13 @@ public class DataManager {
                 + " " + account.getBalance().setScale(2, RoundingMode.DOWN)
                 + " " + account.getPinAttempts()
                 + " " + (account.isLocked() ? account.getLockTime() : 0);
+    }
+    public static void debugAccountsInfo(AccountRepository repo){
+        System.out.println("Accounts: ");
+        for (var a : repo.getAllAccounts()) {
+            System.out.println(a);
+        }
+        System.out.println();
     }
 }
 

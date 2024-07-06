@@ -1,4 +1,4 @@
-package com.senla.core;
+package com.senla.core.account;
 
 import java.util.ArrayList;
 import java.util.List;

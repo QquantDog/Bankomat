@@ -1,4 +1,6 @@
-package com.senla.core;
+package com.senla.core.transaction;
+
+import com.senla.core.atm.ATMOperationType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

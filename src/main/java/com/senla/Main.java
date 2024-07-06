@@ -3,6 +3,9 @@ package com.senla;
 import java.util.Scanner;
 
 import com.senla.core.*;
+import com.senla.core.atm.ATM;
+import com.senla.core.atm.ATMState;
+import com.senla.core.account.AccountRepository;
 import com.senla.core.exceptions.InvalidFileFormatException;
 import com.senla.ui.Menu;
 
@@ -26,14 +29,6 @@ public class Main {
             menu.displayMainMenu();
             String choice = scanner.nextLine();
             switch (choice) {
-                case "0": {
-                    System.out.println("Accounts: ");
-                    for (var a : repo.getAllAccounts()) {
-                        System.out.println(a);
-                    }
-                    System.out.println();
-                    break;
-                }
                 case "1":
                     menu.authenticateUser(scanner);
                     break;
@@ -52,8 +47,13 @@ public class Main {
                 case "6":
                     DataManager.saveAccounts(repo);
                     System.exit(0);
+                    break;
+                case "d": {
+                    DataManager.debugAccountsInfo(repo);
+                    break;
+                }
                 case "9": {
-                    System.out.println("Program exited");
+                    System.out.println("Program exited without saving");
                     System.exit(0);
                 }
                 default:

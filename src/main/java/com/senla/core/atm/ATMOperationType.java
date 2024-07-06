@@ -1,4 +1,4 @@
-package com.senla.core;
+package com.senla.core.atm;
 
 public enum ATMOperationType {
     DEPOSIT(1),
