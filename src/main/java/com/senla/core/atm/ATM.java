@@ -2,9 +2,9 @@ package com.senla.core.atm;
 
 import com.senla.core.account.Account;
 import com.senla.core.account.AccountRepository;
+import com.senla.core.exceptions.*;
 import com.senla.core.util.CardValidator;
 import com.senla.core.transaction.TransactionManager;
-import com.senla.core.exceptions.ATMException;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -27,12 +27,12 @@ public class ATM {
         if (!CardValidator.isValidPin(pin)) throw new ATMException("Invalid input pin format");
 
         var account = repo.getAccountByCardName(cardNumber);
-        if (account == null) throw new ATMException("Card number not found");
+        if (account == null) throw new CardNotFoundException();
 
         if (account.getCardNumber().equals(cardNumber)) {
             if (account.isLocked() && Duration.between(account.getLockTime(), LocalDateTime.now()).toSeconds() < Account.LOCK_DURATION_SECONDS) {
                 var duration = Duration.between(account.getLockTime(), LocalDateTime.now());
-                throw new ATMException("Card is locked. Remaining lock duration "
+                throw new CardIsLockedException( "Remaining lock duration "
                         + " seconds: " + (Account.LOCK_DURATION_SECONDS - duration.toSeconds()));
             } else if (account.isLocked()) {
                 account.unlockAccount();
@@ -45,9 +45,9 @@ public class ATM {
                 account.incrementPinAttempts();
                 if (account.getPinAttempts() >= Account.MAX_PIN_ATTEMPTS) {
                     account.lockAccount();
-                    throw new ATMException("Card is locked due to too many incorrect PIN attempts.");
+                    throw new PinAttemptsExceededException();
                 } else {
-                    throw new ATMException("Incorrect PIN");
+                    throw new IncorrectPinException();
                 }
             }
         }

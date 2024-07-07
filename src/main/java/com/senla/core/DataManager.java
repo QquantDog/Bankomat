@@ -4,6 +4,7 @@ import com.senla.core.account.Account;
 import com.senla.core.account.AccountRepository;
 import com.senla.core.exceptions.CardValidationException;
 import com.senla.core.exceptions.InvalidFileFormatException;
+import com.senla.core.util.AccountValidator;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -36,7 +37,7 @@ public class DataManager {
                     else lockDate = null;
 
                     try{
-                        Account.preValidate(cardNumber, pin, balance, pinAttempts, lockDate);
+                        AccountValidator.preValidate(cardNumber, pin, balance, pinAttempts, lockDate);
                         repo.saveAccount(new Account(cardNumber, pin, balance, pinAttempts, lockDate));
                     } catch (CardValidationException e){
                         throw new InvalidFileFormatException(e.getMessage());
