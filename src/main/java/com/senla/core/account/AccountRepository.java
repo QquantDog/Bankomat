@@ -13,7 +13,9 @@ public class AccountRepository {
     }
 
     public Account getAccountByCardName(String cardNumber){
-        Optional<Account> result = accounts.stream().filter(acc -> Objects.equals(acc.getCardNumber(), cardNumber)).findFirst();
+        Optional<Account> result = accounts.stream()
+                .filter(acc -> Objects.equals(acc.getCardNumber(), cardNumber))
+                .findFirst();
         return result.orElse(null);
     }
     public void saveAccount(Account account){
