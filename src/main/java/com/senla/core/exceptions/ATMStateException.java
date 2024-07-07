@@ -2,6 +2,7 @@ package com.senla.core.exceptions;
 
 import com.senla.core.atm.ATMOperationType;
 
+
 public class ATMStateException extends Exception {
 
     ATMOperationType type;

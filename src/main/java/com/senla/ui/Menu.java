@@ -1,6 +1,5 @@
 package com.senla.ui;
 
-
 import com.senla.core.atm.ATM;
 import com.senla.core.exceptions.ATMException;
 

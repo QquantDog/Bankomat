@@ -1,6 +1,5 @@
 package com.senla.core;
 
-import com.senla.core.atm.ATM;
 import com.senla.core.account.Account;
 import com.senla.core.account.AccountRepository;
 import com.senla.core.exceptions.CardValidationException;

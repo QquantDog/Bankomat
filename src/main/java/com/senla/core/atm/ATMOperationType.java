@@ -1,5 +1,6 @@
 package com.senla.core.atm;
 
+
 public enum ATMOperationType {
     DEPOSIT(1),
     WITHDRAW(2);
