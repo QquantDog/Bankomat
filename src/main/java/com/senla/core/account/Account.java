@@ -20,6 +20,7 @@ public class Account {
     private LocalDateTime lockTime;
     private List<Transaction> transactions;
 
+    public static final int MAX_PIN_ATTEMPTS = 3;
     public static final int LOCK_DURATION_SECONDS = 3600 * 24;
 
     public Account(String cardNumber, String pin, BigDecimal balance, int pinAttempts, LocalDateTime lockTime) {
@@ -35,11 +36,11 @@ public class Account {
         if (!CardValidator.isValidCardNumber(cardNumber)) throw new CardValidationException("Invalid card format");
         if (!CardValidator.isValidPin(pin)) throw new CardValidationException("Invalid pin format");
         if (balance.compareTo(BigDecimal.valueOf(0)) < 0) throw new CardValidationException("Invalid amount of money");
-        if (pinAttempts < 0 || pinAttempts > ATM.MAX_PIN_ATTEMPTS)
+        if (pinAttempts < 0 || pinAttempts > MAX_PIN_ATTEMPTS)
             throw new CardValidationException("Invalid pin attempts");
-        if (pinAttempts == ATM.MAX_PIN_ATTEMPTS && lockTime == null)
+        if (pinAttempts == MAX_PIN_ATTEMPTS && lockTime == null)
             throw new CardValidationException("Invalid lock time");
-        if (pinAttempts != ATM.MAX_PIN_ATTEMPTS && lockTime != null)
+        if (pinAttempts != MAX_PIN_ATTEMPTS && lockTime != null)
             throw new CardValidationException("Invalid lock time");
     }
 

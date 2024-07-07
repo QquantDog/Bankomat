@@ -16,8 +16,6 @@ public class ATM {
     private Account currentAccount;
     private ATMState atmState;
 
-    public static final int MAX_PIN_ATTEMPTS = 3;
-
     public ATM(AccountRepository repo, ATMState atmState) {
         this.repo = repo;
         this.atmState = atmState;
@@ -44,7 +42,7 @@ public class ATM {
                 System.out.println("Authentication successful for card: " + cardNumber);
             } else {
                 account.incrementPinAttempts();
-                if (account.getPinAttempts() >= MAX_PIN_ATTEMPTS) {
+                if (account.getPinAttempts() >= Account.MAX_PIN_ATTEMPTS) {
                     account.lockAccount();
                     throw new ATMException("Card is locked due to too many incorrect PIN attempts.");
                 } else {

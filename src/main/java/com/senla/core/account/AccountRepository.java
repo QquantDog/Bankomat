@@ -19,4 +19,7 @@ public class AccountRepository {
     public void saveAccount(Account account){
         this.accounts.add(account);
     }
+    public void saveAllAccounts(List<Account> accounts_to_save){
+        this.accounts.addAll(accounts_to_save);
+    }
 }

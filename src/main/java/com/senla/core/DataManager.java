@@ -33,7 +33,7 @@ public class DataManager {
                     int pinAttempts = Integer.parseInt(parts[3]);
 
                     LocalDateTime lockDate;
-                    if(pinAttempts == ATM.MAX_PIN_ATTEMPTS) lockDate = LocalDateTime.parse(parts[4]);
+                    if(pinAttempts == Account.MAX_PIN_ATTEMPTS) lockDate = LocalDateTime.parse(parts[4]);
                     else lockDate = null;
 
                     try{

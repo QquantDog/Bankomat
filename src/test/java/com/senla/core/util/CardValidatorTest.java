@@ -1,6 +1,5 @@
-package com.senla.core;
+package com.senla.core.util;
 
-import com.senla.core.util.CardValidator;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -9,6 +8,13 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CardValidatorTest {
+
+//    private CardValidator cardValidator;
+//
+//    @BeforeAll
+//    void setUp(){
+//        cardValidator = new
+//    }
 
     @ParameterizedTest
     @MethodSource("validCardsProvider")
